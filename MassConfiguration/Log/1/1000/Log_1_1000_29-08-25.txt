@@ -1,0 +1,30 @@
+﻿1000, 29.08.2025 8:15:16: Start Dispatcher: NO_ERROR
+1000, 29.08.2025 8:15:16: DLL файл не найден - C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.2\Validators\GSMOperatingModeVldr.dll
+1000, 29.08.2025 8:15:16: DLL файл не найден - C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.2\Validators\Validators.dll
+1000, 29.08.2025 8:15:16: TypeDescriptionProvider "GXStructureDescriptorProvider" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: CustomTypeDescriptor "GXStructureDescriptor" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: TypeConverter "GXStructureConverter" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: DescriptionProvider "GXStructureDescriptorProvider" created.
+1000, 29.08.2025 8:15:16: IBaseTypeDescriptionProvider "GXStructureDescriptorProvider" implemented.
+1000, 29.08.2025 8:15:16: IBaseTypeDescriptionProvider GXStructureDescriptorProvider.ConvertTypes: "GXStructure, GXStructure[], List`1"
+1000, 29.08.2025 8:15:16: Type "GXStructure", description provider "GXStructureDescriptorProvider", converter "GXStructureConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: Type "GXStructure[]", description provider "GXStructureDescriptorProvider", converter "GXStructureConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: Type "List`1", description provider "GXStructureDescriptorProvider", converter "GXStructureConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: TypeDescriptionProvider "GXEnumDescriptorProvider" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: CustomTypeDescriptor "GXEnumDescriptor" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: TypeConverter "GXEnumConverter" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: DescriptionProvider "GXEnumDescriptorProvider" created.
+1000, 29.08.2025 8:15:16: IBaseTypeDescriptionProvider "GXEnumDescriptorProvider" implemented.
+1000, 29.08.2025 8:15:16: IBaseTypeDescriptionProvider GXEnumDescriptorProvider.ConvertTypes: "GXEnum, GXEnum[], List`1"
+1000, 29.08.2025 8:15:16: Type "GXEnum", description provider "GXEnumDescriptorProvider", converter "GXEnumConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: Type "GXEnum[]", description provider "GXEnumDescriptorProvider", converter "GXEnumConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: Type "List`1", description provider "GXEnumDescriptorProvider", converter "GXEnumConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: TypeDescriptionProvider "GXDateTimeDescriptorProvider" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: CustomTypeDescriptor "GXDateTimeDescriptor" is found and defined in assembly "Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: TypeConverter "GXDateTimeConverter" is found and defined in assembly "Gurux.DLMS, Version=0.0.1.0, Culture=neutral, PublicKeyToken=null".
+1000, 29.08.2025 8:15:16: DescriptionProvider "GXDateTimeDescriptorProvider" created.
+1000, 29.08.2025 8:15:16: IBaseTypeDescriptionProvider "GXDateTimeDescriptorProvider" implemented.
+1000, 29.08.2025 8:15:16: IBaseTypeDescriptionProvider GXDateTimeDescriptorProvider.ConvertTypes: "GXDateTime, GXDateTime[], List`1"
+1000, 29.08.2025 8:15:16: Type "GXDateTime", description provider "GXDateTimeDescriptorProvider", converter "GXDateTimeConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: Type "GXDateTime[]", description provider "GXDateTimeDescriptorProvider", converter "GXDateTimeConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
+1000, 29.08.2025 8:15:16: Type "List`1", description provider "GXDateTimeDescriptorProvider", converter "GXDateTimeConverter" loaded! ("C:\Users\HafizovTA\Desktop\MassConfigurationGUI v14.3.5\Converters\Last new 2\Converters.dll")
