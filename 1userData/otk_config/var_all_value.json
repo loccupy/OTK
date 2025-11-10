@@ -1,0 +1,382 @@
+{
+    "sutp_to_save": {
+        "type": "",
+        "descript":"способ сохранения результата проверки в СУТП",
+        "file_name": "opto_run.json",
+        "column_name": "sutp_to_save",
+        "all_value": {
+            "не сохранять": "0",
+            "вручную через сайт":"1",
+            "автоматически: годен/брак":"2",
+            "автоматически: брак":"3"
+        },
+        "value_standart": ["2"]
+    },
+    "data_exchange_sutp": {
+        "type": "",
+        "descript": "обмен данными с СУТП",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "отключен": "0",
+            "включен": "1"
+        },
+        "value_standart": "1"
+    },
+    "meter_color_body": {
+        "type": "",
+        "descript": "цвет корпуса ПУ",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "серый": "серый",
+            "белый": "белый",
+            "черный": "черный"
+        },
+        "value_standart": ["серый"]
+    },
+    "meter_adjusting_clock": {
+        "type": "",
+        "descript": "корректировка часов ПУ при отклонении на 1 минуту или расч. погреш. более 1 сек./сут." ,
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "спрашивать каждый раз": "0",
+            "автоматически для всех часовых поясов": "1",
+            "автоматически только для мск.": "2"
+        },
+        "value_standart": ["1"]
+    },
+    "modem_status": {
+        "type": "",
+        "descript": "статус модуля связи",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "устанавливаться не будет": "0",
+            "будет рабочим": "1",
+            "будет тестовым": "2"
+        },
+        "value_standart": ["0","1"]
+    },
+    "actions_no_mc": {
+        "type": "",
+        "descript": "действия при отсутствии модуля связи",
+        "file_name": "opto_run.json",
+        "column_name": "actions_no_mc",
+        "all_value": {
+            "отправить в ремонт": "0",
+            "изменить статус модуля связи": "1"
+        },
+        "value_standart": ["0"]
+    },
+    "SIMcard_status": {
+        "type": "",
+        "descript": "статус SIM карты",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "устанавливаться не будет": "0",
+            "будет рабочей, запрашивать номер карты": "1",
+            "будет тестовой": "2",
+            "будет рабочей, номер карты не нужен": "3"
+        },
+        "value_standart": ["0"]
+    },
+    "electrical_test_circuit": {
+        "type": "",
+        "descript": "схема подключения ПУ для проверки",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "напряжение - 1 фаза, ток - нет": "1-0",
+            "напряжение - 1 фаза, ток - 1 фаза": "1-1",
+            "напряжение - 2 фазы, ток - нет": "2-0",
+            "напряжение - 2 фазы, ток - 1 фаза": "2-1",
+            "напряжение - 2 фазы, ток - 2 фазы": "2-2",
+            "напряжение - 3 фазы, ток - нет": "3-0",
+            "напряжение - 3 фазы, ток - 1 фаза": "3-1",
+            "напряжение - 3 фазы, ток - 2 фазы": "3-2",
+            "напряжение - 3 фазы, ток - 3 фазы": "3-3"
+        },
+        "value_standart": []
+    },
+    "ctrl_current_electr_test": {
+        "type": "",
+        "descript": "контрольное значение тока в схеме подключения ПУ для проверки, А",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "0.5": 0.5,
+            "1": 1,
+            "2": 2,
+            "5": 5,
+            "10": 10
+        },
+        "value_standart": [1]
+    },
+    "rep_copy_public": {
+        "type": "",
+        "descript": "копирование файла протокола в общую папку",
+        "file_name": "opto_run.json",
+        "column_name": "rep_copy_public",
+        "all_value": {
+            "отключено": "0",
+            "включено": "1"
+        },
+        "value_standart": ["1"]
+    },
+    "config_send_mail": {
+        "type": "",
+        "descript": "отправка уведомления о выявленных замечаниях в конфигурации ПУ",
+        "file_name": "opto_run.json",
+        "column_name": "config_send_mail",
+        "all_value": {
+            "отключена": "0",
+            "включена": "1",
+            "отправка только Васильеву": "2"
+        },
+        "value_standart": ["1"]
+    },
+    "rep_err_send_mail": {
+        "type": "",
+        "descript": "отправка уведомления об отправке ПУ в ремонт",
+        "file_name": "opto_run.json",
+        "column_name": "rep_err_send_mail",
+        "all_value": {
+            "отключена": "0",
+            "включена": "1",
+            "отправка только Васильеву": "2"
+        },
+        "value_standart": ["1"]
+    },
+    "no_data_in_SUTP_send_mail": {
+        "type": "",
+        "descript": "отправка уведомления об отсутствии данных в СУТП",
+        "file_name": "opto_run.json",
+        "column_name": "no_data_in_SUTP_send_mail",
+        "all_value": {
+            "отключена": "0",
+            "включена": "1",
+            "отправка только Васильеву": "2"
+        },
+        "value_standart": ["1"]
+    },
+    "order_control": {
+        "type": "",
+        "descript": "контроль принадлежности ПУ заказу",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "отключен": "0",
+            "включен": "1"
+        },
+        "value_standart": ["1"]
+    },
+    "meter_config_check": {
+        "type": "",
+        "descript": "метод проверки конфигурации ПУ",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "проверка отключена": "0",
+            "ручной режим с помощью программы 'MassProdAutoConfig.exe'": "2",
+            "автоматический режим с помощью программы 'MassProdAutoConfig.exe'": "3"
+        },
+        "value_standart": ["3"]
+    },
+    "com_config_current_select": {
+        "type": "",
+        "descript": "выбор интерфейса для проверки конфигурации ПУ",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "зафиксирован пользователем": "0",
+            "автоматически": "1"
+        },
+        "value_standart": ["1"]
+    },
+    "com_config_user": {
+        "type": "",
+        "descript": "зафиксированный пользователем интерфейс",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "оптопорт": "com_config_opto",
+            "RS-485": "com_config_rs485"
+        },
+        "value_standart": ["com_config_opto"]
+    },
+    "com_config_eqv_com": {
+        "type": "",
+        "descript": "совместное использование COM-портов для видов проверки ПУ" ,
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "отключено": "0",
+            "включено": "1"
+        },
+        "value_standart": ["1"]
+    },
+    "number_of_meters": {
+        "type": "#num_fract_limit[1:10]",
+        "descript": "количество подключаемых ПУ" ,
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {},
+        "value_standart": []
+    },
+    "res_ext_at_begin_test": {
+        "type": "",
+        "descript": "запись результата внешнего осмотра ПУ в начале теста ПУ",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "отключена": "0",
+            "включена": "1"},
+        "value_standart": ["1"]
+    },
+    "print_number_big_font": {
+        "type": "",
+        "descript": "печать на экране вводимых номеров изделий большим шрифтом",
+        "file_name": "opto_run.json",
+        "column_name": "",
+        "all_value": {
+            "отключена": "откл",
+            "включена в отдельном окне": "окно"
+        },
+        "value_standart": []
+    },
+    "big_font_name": {
+        "type": "",
+        "descript": "наименование большого шрифта",
+        "file_name": "print_big_font.json",
+        "column_name": "",
+        "all_value": {
+            "colossal": "colossal",
+            "e_first": "e_first",
+            "tarty8": "tarty8"
+        },
+        "value_standart": [
+            "colossal"
+        ]
+    },
+    "big_font_time_interval": {
+        "type": "#num_fract_limit[1:5]",
+        "descript": "время ожидания обновления для текста с большим шрифтом, сек",
+        "file_name": "print_big_font.json",
+        "column_name": "",
+        "all_value": {},
+        "value_standart": []
+    },
+    "big_font_window_x": {
+        "type": "#num_fract_limit[35:40]",
+        "descript": "минимальная высота окна для текста с большим шрифтом",
+        "file_name": "print_big_font.json",
+        "column_name": "",
+        "all_value": {},
+        "value_standart": []
+    },
+    "big_font_window_y": {
+        "type": "#num_fract_limit[100:200]",
+        "descript": "минимальная ширина окна для текста с большим шрифтом",
+        "file_name": "print_big_font.json",
+        "column_name": "",
+        "all_value": {},
+        "value_standart": []
+    },
+    "input_max_numb_def": {
+        "type": "#num_fract_limit[1:15]",
+        "descript": "макс. кол-во вводимых симв. по умолч. для окна с большим шрифтом",
+        "file_name": "print_big_font.json",
+        "column_name": "",
+        "all_value": {},
+        "value_standart": []
+    },
+    "mass_control_com_port": {
+        "type": "",
+        "descript": "контроль записи в реестре Windows об использовании COM-порта",
+        "file_name": "mass_config.json",
+        "column_name": "mass_control_com_port",
+        "all_value": {
+            "отключен": "0",
+            "предупреждать об отличиях": "1",
+            "автоматически заменять": "2"
+        },
+        "value_standart": [
+            "2"
+        ]
+    },
+   "time_wait_exec": {
+        "type": "",
+        "descript": "пауза для ожидания запуска программы, сек",
+        "file_name": "mass_config.json",
+        "column_name": "",
+        "all_value": {
+            "1": 1,
+            "1.5": 1.5,
+            "2": 2,
+            "2.5": 2.5,
+            "3": 3
+        },
+        "value_standart": ["2"]
+    },
+    "time_wait_open_window": {
+        "type": "",
+        "descript": "пауза для ожидания отображения окна, сек",
+        "file_name": "mass_config.json",
+        "column_name": "",
+        "all_value": {
+            "1": 1,
+            "1.5": 1.5,
+            "2": 2,
+            "2.5": 2.5,
+            "3": 3,
+            "4": 4,
+            "5": 5
+        },
+        "value_standart": ["2"]
+    },
+    "time_interval_limit": {
+        "type": "#num_fract_limit[6:15]",
+        "descript": "макс. время ожидания новых записей в log-файле, сек",
+        "file_name": "mass_config.json",
+        "column_name": "",
+        "all_value": {},
+        "value_standart": []
+    },
+    "time_interval": {
+        "type": "#num_fract_limit(1:5)",
+        "descript": "время ожидания появления новой записи в журнале, сек",
+        "file_name": "mass_config.json",
+        "column_name": "",
+        "all_value": {},
+        "value_standart": []
+    },
+    "mass_log_split_print": {
+        "type": "",
+        "descript": "информирование о процессе обработки общего журнала",
+        "file_name": "mass_config.json",
+        "column_name": "",
+        "all_value": {
+            "показать индикатор процесса": "индикатор",
+            "показать содержимое журнала": "показать журнал"
+        },
+        "value_standart": [
+            "индикатор"
+        ]
+    },
+    "mass_log_print_analysis": {
+        "type": "",
+        "descript": "информирование о процессе анализа журнала каждого ПУ",
+        "file_name": "mass_config.json",
+        "column_name": "",
+        "all_value": {
+            "показать индикатор процесса": "индикатор",
+            "показать содержимое журнала": "показать журнал"
+        },
+        "value_standart": [
+            "индикатор"
+        ]
+    }
+}
