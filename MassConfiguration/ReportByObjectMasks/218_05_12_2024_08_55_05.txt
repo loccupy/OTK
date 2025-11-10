@@ -1,0 +1,17 @@
+Устройство #1, файл конфигурации (C:\Users\1\Documents\1ph_4511_new_mass_full.xlsx):
+
+OBIS: 0.0.25.4.0.255, Attribute: 2, Property name: Value;
+OBIS: 0.0.25.4.0.255, Attribute: 3, Property name: PINCode;
+OBIS: 0.0.2.1.0.255, Attribute: 2, Property name: Value;
+OBIS: 0.2.25.0.0.255, Attribute: 2, Property name: Value;
+OBIS: 0.0.25.9.0.255, Attribute: 3, Property name: Destination;
+OBIS: 0.0.25.9.0.255, Attribute: 3, Property name: Service;
+OBIS: 0.0.25.9.0.255, Attribute: 5, Property name: RandomisationStartInterval;
+OBIS: 0.0.25.9.0.255, Attribute: 7, Property name: RepetitionDelay;
+OBIS: 0.0.25.9.0.255, Attribute: 4, Property name: CommunicationWindow;
+OBIS: 0.1.22.0.0.255, Attribute: 2, Property name: Value;
+OBIS: 0.0.22.0.0.255, Attribute: 2, Property name: Value;
+OBIS: 0.0.40.0.2.255, Attribute: 7, Property name: Secret;
+
+
+

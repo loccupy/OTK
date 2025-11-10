@@ -1,0 +1,7 @@
+Устройство #1, файл конфигурации (C:\Users\1\Documents\3ph_iprom__hdlc_multi_rf .xlsx):
+
+OBIS: 0.0.40.0.2.255, Attribute: 7, Property name: Secret;
+OBIS: 0.0.2.164.13.255, Attribute: 2, Property name: Value;
+
+
+

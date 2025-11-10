@@ -1,0 +1,8 @@
+Устройство #1, файл конфигурации (C:\Users\kuzminvb\Downloads\1PH_Test_Push1.xlsx):
+
+OBIS: 0.0.2.164.13.255, Attribute: 2, Property name: Value;
+OBIS: 0.1.15.0.4.255, Attribute: 4, Property name: ExecutionTime;
+OBIS: 0.2.15.0.4.255, Attribute: 4, Property name: ExecutionTime;
+
+
+

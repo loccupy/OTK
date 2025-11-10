@@ -1,0 +1,6 @@
+Устройство #1, файл конфигурации (C:\Users\1\Documents\Конфигурация 1.xlsx):
+
+OBIS: 0.0.22.0.0.255, Attribute: 2, Property name: Value;
+
+
+
