@@ -1,33 +1,33 @@
 {
-    "mailbox_username": "v.vasilev@promenergo-rt.ru",
-    "mailbox_pw_encrypt": "529144gAAAAABoELLZ3BMLFS2oAzpdu9GVsz-MUm8qbNL_1wBNGMBI8SlzkMgc09wznYaM5cDRSLtSdrVQb4qv9jXRrH7FkKvPn85CRz0oiiBWfUl-2e7eZd8ITuA=",
+    "mailbox_username": "as.nikitin@promenergo-rt.ru",
+    "mailbox_pw_encrypt": "207203gAAAAABpBdRaIjVzwTGPsYO-ECTZibssIJFMTGNCVbSSUaV78ZRWGNRV5gnoX9wqZXRapzr8c9YNyO3ZSYCQFLQ2oSQMa9UCYz7x6Br7Vsk606obu0ESKiA=",
     "mail_server_adr": "smtp.mail.ru",
     "mail_server_smtp_port": 465,
-    "from_mail": "v.vasilev@promenergo-rt.ru",
+    "from_mail": "as.nikitin@promenergo-rt.ru",
     "конфигурация": {
         "to_mail_list": [
             "d.emelyanov@promenergo-rt.ru"
         ],
         "cc_mail_list": [
-            "v.vasilev@promenergo-rt.ru",
+            "as.nikitin@promenergo-rt.ru",
             "t.hafizov@promenergo-rt.ru"
         ]
     },
     "Васильеву": {
         "to_mail_list": [
-            "v.vasilev@promenergo-rt.ru"
+            "as.nikitin@promenergo-rt.ru"
         ],
         "cc_mail_list": []
     },
     "дефект": {
         "to_mail_list": [
-            "v.vasilev@promenergo-rt.ru"
+            "as.nikitin@promenergo-rt.ru"
         ],
         "cc_mail_list": []
     },
     "нет данных в СУТП": {
         "to_mail_list": [
-            "v.vasilev@promenergo-rt.ru"
+            "as.nikitin@promenergo-rt.ru"
         ],
         "cc_mail_list": []
     }
