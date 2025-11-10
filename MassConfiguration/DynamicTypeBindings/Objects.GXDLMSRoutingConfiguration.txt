@@ -1,0 +1,1 @@
+System.Collections.Generic.List`1[[Gurux.DLMS.Objects.GXDLMSRoutingConfiguration, Gurux.DLMS, Version=0.0.1.0, Culture=neutral, PublicKeyToken=null]]

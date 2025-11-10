@@ -1,0 +1,1 @@
+System.Collections.Generic.List`1[[System.Collections.Generic.KeyValuePair`2[[Gurux.DLMS.GXDateTime, Gurux.DLMS, Version=0.0.1.0, Culture=neutral, PublicKeyToken=null],[Gurux.DLMS.GXDateTime, Gurux.DLMS, Version=0.0.1.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
