@@ -32,7 +32,8 @@ class bcolors:
 
 def request_sutp(type_request, url1, body_query1, err_txt="", workmode="эксплуатация",
                  print_err="1"):
-    url_base = "http://api.sutp.promenergo.local"  # базовый адрес РАБОЧИЙ
+    # url_base = "http://api.sutp.promenergo.local"  # базовый адрес РАБОЧИЙ
+    url_base = "http://test.api.sutp.promenergo.local"  # базовый адрес РАБОЧИЙ
     if "test-api" in workmode:
         url_base = "http://test.api.sutp.promenergo.local"  # базовый адрес для ТЕСТОВ
     elif "тест" in workmode:
