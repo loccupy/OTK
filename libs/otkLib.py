@@ -3795,7 +3795,7 @@ def changeUser(workmode="эксплуатация"):
 
     res = readGonfigValue("var_all_value.json", [], {}, workmode, "1")
     if res[0] != "1":
-        return ["0", f"Ошибка при чтении данных из ф.{file_name}."]
+        return ["0", f"Ошибка при чтении данных из ф.var_all_value.json."]
 
     var_all_value_dic = res[2]
 
