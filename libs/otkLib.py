@@ -822,6 +822,11 @@ def searchTitleWindow(title_window=""):
 
 def actionsSelectedtWindow(title_window_list: list, hwnd=None,
     actions="закрыть", print_err_msg="1"):
+    """
+    Принимает дескриптор, список заголовков, команду к действию,
+    совершает указанное действие,
+    возвращает флаг, текст состояния и дескриптор окна.
+    """
 
     show_window_dic = {"скрыть": [SW_HIDE],
         "свернуть+активировать": [SW_SHOWMINIMIZED],
@@ -862,7 +867,7 @@ def actionsSelectedtWindow(title_window_list: list, hwnd=None,
                 break
 
         else:
-            a_err_txt="Ошибка при операциях с окнами: остутствует " \
+            a_err_txt="Ошибка при операциях с окнами: отсутствует " \
                 "дескриптор и заголовок окна."
             
             printMsgWait(a_err_txt,bcolors.WARNING, print_err_msg)
@@ -873,7 +878,7 @@ def actionsSelectedtWindow(title_window_list: list, hwnd=None,
     if actions=="закрыть":
         if hwnd!=None and hwnd!=0:
             try:
-                tid, pid = GetWindowThreadProcessId(hwnd)
+                tid, pid = GetWindowThreadProcessId(hwnd)#  — вызов WinAPI для получения идентификаторов потока (TID) и процесса (PID), которым принадлежит указанное окно
                 os.system(f'taskkill /f /t /pid {pid}')
             except Exception:
                 a_err_txt="Возникла ошибка при закрытии окна."
@@ -888,28 +893,25 @@ def actionsSelectedtWindow(title_window_list: list, hwnd=None,
                     os.system(f'taskkill /f /t /pid {pid}')
                 except Exception:
                     a_err_txt="Возникла ошибка при закрытии окна."
-                    printMsgWait(a_err_txt,bcolors.WARNING, 
-                                 print_err_msg)
+                    printMsgWait(a_err_txt,bcolors.WARNING, print_err_msg)
                     return ["0", a_err_txt]
     
     else:
         for a_cur in var_show_window:
             if a_cur=="activate":
                 try:
-                    SetForegroundWindow(hwnd)
+                    SetForegroundWindow(hwnd)#  — это вызов WinAPI, который делает указанное окно текущим активным (foreground) окном и передаёт ему фокус ввода
                 except Exception:
                     a_err_txt="Возникла ошибка при активации окна."
-                    printMsgWait(a_err_txt,bcolors.WARNING, 
-                                 print_err_msg)
+                    printMsgWait(a_err_txt,bcolors.WARNING, print_err_msg)
                     return ["0", a_err_txt]
 
             else:
                 try:
-                    ShowWindow(hwnd, a_cur)
+                    ShowWindow(hwnd, a_cur)#  — вызов WinAPI для управления видимостью и состоянием окна по его дескриптору (hwnd).
                 except Exception:
                     a_err_txt="Возникла ошибка при операции над окном."
-                    printMsgWait(a_err_txt,bcolors.WARNING, 
-                                 print_err_msg)
+                    printMsgWait(a_err_txt,bcolors.WARNING, print_err_msg)
                     return ["0", a_err_txt]
 
     return["1", "Операция выполнена.", ret_hwnd]
@@ -1300,9 +1302,7 @@ def questionOneKey(colortxt: str,txt: str):
 
 
 
-def questionSpecifiedKey(colortxt, txt, specified_keys_in: list, 
-    file_name_mp3="", specified_keys_only=0):
-
+def questionSpecifiedKey(colortxt, txt, specified_keys_in: list, file_name_mp3="", specified_keys_only=0):
     specified_keys=listCopy(specified_keys_in)
 
     if colortxt != None and colortxt != '':
@@ -4389,19 +4389,21 @@ def checksumFile(file_path: str, sha256: str, print_err_msg="1"):
     return["1", "Контрольная сумма файла совпала.", a_checksum]
 
 
+def openFileWaitKey(file_path: str, window_title="", txt="", check_close_file="0", wait_key="\r", print_err_msg="1",
+                    time_wait_exec=2):
+    """
+    Функция принимает путь к файлу и флаги настроек,
 
-def openFileWaitKey(file_path: str, window_title="", txt="", 
-    check_close_file="0", wait_key="\r", print_err_msg="1",
-    time_wait_exec=2):
-
+    функция открывает указанную программу и передает фокус ввода на нее.
+    """
     if txt!="":
         printColor(txt)
 
     file_keys=""
     file_path_start=file_path
 
-    a_path = os.path.split(file_path)[0]
-    filename = os.path.split(file_path)[1]
+    a_path = os.path.split(file_path)[0]# путь к файлу
+    filename = os.path.split(file_path)[1]# название файла
 
     if a_path=="":
         a_file_name=filename
@@ -4409,7 +4411,7 @@ def openFileWaitKey(file_path: str, window_title="", txt="",
         if " " in a_file_name:
             a_pos=a_file_name.find(" ")
             filename=a_file_name[0:a_pos]
-            file_keys=a_file_name[a_pos:len(a_file_name)]
+            file_keys=a_file_name[a_pos:len(a_file_name)]# что это такое - я не знаю
 
         _, ans2, file_path = getUserFilePath(filename)
         if file_path == "":
@@ -4447,7 +4449,6 @@ def openFileWaitKey(file_path: str, window_title="", txt="",
         res = searchTitleWindow(window_title)
         if res[0] == "1":
             subproc_hwnd = res[2]
-
 
             res=actionsSelectedtWindow([], subproc_hwnd,
                 "показать")
@@ -4510,8 +4511,7 @@ def openFileWaitKey(file_path: str, window_title="", txt="",
             return ["0", f"Ошибка при проверке доступности "
                 f"ф.'{file_path}'", None,  None]
         
-    return ["1","Операция выполнена успешно.", pid, 
-        subproc_hwnd]
+    return ["1","Операция выполнена успешно.", pid, subproc_hwnd]
 
 
 def checkFileIsClosed(file_path: str):
