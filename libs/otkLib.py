@@ -728,9 +728,11 @@ def getHwndPid(pid):
                 hwnd_windows]
 
 
-def moveResizeWindow(title_window_list: list, x: int, y: int, 
-    w: int, h: int, print_err_msg="1"):
-    
+def moveResizeWindow(title_window_list: list, x: int, y: int, w: int, h: int, print_err_msg="1"):
+    """
+    Перемещает и изменяет размер окна в Windows по заданному заголовку
+    (или использует активное окно, если заголовок не найден). Разберём его детально.
+    """
     hwnd = None
     
     if len(title_window_list)>0:
@@ -5368,7 +5370,8 @@ def sendMail(file_name_config:str, subject: str, message_txt: str,
         return ["0", "Ошибка при чтении конфигурационного файла."]
 
     if rec_block_name=="":
-        rec_block_name="конфигурация"
+        rec_block_name="Васильеву"
+        # rec_block_name="конфигурация"
 
     mail_config_dic=res[2]
     mailbox_username=mail_config_dic["mailbox_username"]
