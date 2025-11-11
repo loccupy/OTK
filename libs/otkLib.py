@@ -106,19 +106,24 @@ from colorama import init
 
 init()
 
-
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
+# я закомментил
+# def resource_path(relative_path):
+#     try:
+#         base_path = sys._MEIPASS
+#     except Exception:
+#         base_path = os.path.abspath(".")
+#
+#     return os.path.join(base_path, relative_path)
 
 
 def getWorkDirLink():
-
+    """
+    Функция формирует и записывает в json путь к рабочему каталогу.
+    Возвращает список с:
+     1)флагом 0 или 1,
+     2)текстом ошибки или сообщения об успехе,
+     3)путь или пустую строку.
+    """
     dirname = os.path.dirname(__file__)
     file_name_link = os.path.join(dirname,
         "link_current_folder.json")
@@ -133,13 +138,12 @@ def getWorkDirLink():
     return["1","Ссылка на рабочий каталог сформирована",dirname_cur]
 
 
-
-def getUserFilePath(file_name: str, only_dir="0",
-    workmode="эксплуатация", create_folder="1"):
-    
-
-
- 
+def getUserFilePath(file_name: str, only_dir="0", workmode="эксплуатация", create_folder="1"):
+    """
+    Функция принимает имя файла и флаги,
+    возвращает путь к или файлу, или каталогу, или создает каталог, или ошибку.
+    Возвращаемый результат в виде листа с флагом, сообщением и путем к файлу.
+    """
     res=getWorkDirLink()
     if res[0]=="0":
         return["0",res[1],""]
@@ -173,7 +177,6 @@ def getUserFilePath(file_name: str, only_dir="0",
                 res=createFolder(a_dir_path, "1")
                 if res[0]=="0":
                     return ["0", res[1]]
-        
         else:
             if "тест" in workmode:
                 base_path_LAN = os.path.join(dirname_cur, "1test")
@@ -193,7 +196,10 @@ def getUserFilePath(file_name: str, only_dir="0",
 
 
 def createFolder(destination_folder: str, err_msg_print="1"):
-
+    """
+    Функция принимает путь к каталогу и создает по указанному адресу такой каталог.
+    Возвращает массив с флагом и сообщением
+    """
     folders_list = destination_folder.split("\\", -1)
     dir_name = ""
     drive_name = ""
@@ -228,72 +234,70 @@ def createFolder(destination_folder: str, err_msg_print="1"):
     return ["1", "Папка создана."]
 
 
-
-def changeDuplicateFileName(file_dest_full: str, err_msg_print="1",
-    info_msg_print="0"):
-
-    dest_folder=os.path.split(file_dest_full)[0]
-
-    file_name=os.path.split(file_dest_full)[1]
-
-    file_name_old=file_name
-
-    if os.path.exists(file_dest_full):
-        res=getFileModifedTime(file_dest_full, err_msg_print)
-        if res[0]=="0":
-            return ["0", res[1]]
-
-        dt_modify_txt=datetime.fromtimestamp(res[2]).strftime('%d%m%y_%H%M%S')
-        pos_dote=file_name.rfind(".")
-        if pos_dote==-1:
-            file_name=f"{file_name}_{dt_modify_txt}"
-        else:
-            file_name=f"{file_name[0:pos_dote]}_{dt_modify_txt}" \
-                f"{file_name[pos_dote:len(file_name)]}"
-        
-        index_name_file=0
-
-        while True:
-            index_name_file+=1
-
-            file_new_name_full=os.path.join(dest_folder, file_name)
-
-            if not os.path.exists(file_new_name_full):
-                try:
-                    os.rename(file_dest_full, file_new_name_full)
-
-                    if info_msg_print=="1":
-                        a_txt=f"В папке '{dest_folder}'\n" \
-                            f"файл с именем '{file_name_old}' " \
-                            f"переименован в '{file_name}'."
-                        print(a_txt)
-
-                    return ["1", "Операция выполнена успешно."]
-
-                except Exception:
-                    txt1 = f"Ошибка при изменении имени файла {file_dest_full}."
-                    if err_msg_print == "1":
-                        printWARNING(txt1)
-                    return ["0", txt1]
-            
-            pos_dote=file_name.rfind(".")
-            if pos_dote==-1:
-                file_name=f"{file_name}_{str(index_name_file)}"
-            else:
-                if index_name_file==1:
-                    file_name=f"{file_name[0:pos_dote]}_{str(index_name_file)}" \
-                        f"{file_name[pos_dote:len(file_name)]}"
-                    
-                else:
-                    a_len_suf=len(str(index_name_file-1))
-                    pos_start_index=pos_dote-a_len_suf-1
-                    file_name=f"{file_name[0:pos_start_index]}_{str(index_name_file)}" \
-                        f"{file_name[pos_dote:len(file_name)]}"
-
-
-    return ["1", "Операция выполнена успешно."]
-
-
+# Закомментил, хз надо ли
+# def changeDuplicateFileName(file_dest_full: str, err_msg_print="1",
+#     info_msg_print="0"):
+#
+#     dest_folder=os.path.split(file_dest_full)[0]
+#
+#     file_name=os.path.split(file_dest_full)[1]
+#
+#     file_name_old=file_name
+#
+#     if os.path.exists(file_dest_full):
+#         res=getFileModifedTime(file_dest_full, err_msg_print)
+#         if res[0]=="0":
+#             return ["0", res[1]]
+#
+#         dt_modify_txt=datetime.fromtimestamp(res[2]).strftime('%d%m%y_%H%M%S')
+#         pos_dote=file_name.rfind(".")
+#         if pos_dote==-1:
+#             file_name=f"{file_name}_{dt_modify_txt}"
+#         else:
+#             file_name=f"{file_name[0:pos_dote]}_{dt_modify_txt}" \
+#                 f"{file_name[pos_dote:len(file_name)]}"
+#
+#         index_name_file=0
+#
+#         while True:
+#             index_name_file+=1
+#
+#             file_new_name_full=os.path.join(dest_folder, file_name)
+#
+#             if not os.path.exists(file_new_name_full):
+#                 try:
+#                     os.rename(file_dest_full, file_new_name_full)
+#
+#                     if info_msg_print=="1":
+#                         a_txt=f"В папке '{dest_folder}'\n" \
+#                             f"файл с именем '{file_name_old}' " \
+#                             f"переименован в '{file_name}'."
+#                         print(a_txt)
+#
+#                     return ["1", "Операция выполнена успешно."]
+#
+#                 except Exception:
+#                     txt1 = f"Ошибка при изменении имени файла {file_dest_full}."
+#                     if err_msg_print == "1":
+#                         printWARNING(txt1)
+#                     return ["0", txt1]
+#
+#             pos_dote=file_name.rfind(".")
+#             if pos_dote==-1:
+#                 file_name=f"{file_name}_{str(index_name_file)}"
+#             else:
+#                 if index_name_file==1:
+#                     file_name=f"{file_name[0:pos_dote]}_{str(index_name_file)}" \
+#                         f"{file_name[pos_dote:len(file_name)]}"
+#
+#                 else:
+#                     a_len_suf=len(str(index_name_file-1))
+#                     pos_start_index=pos_dote-a_len_suf-1
+#                     file_name=f"{file_name[0:pos_start_index]}_{str(index_name_file)}" \
+#                         f"{file_name[pos_dote:len(file_name)]}"
+#
+#
+#     return ["1", "Операция выполнена успешно."]
 
 
 def copyFile(file_name_full: str, file_dest_full: str,
