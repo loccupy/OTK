@@ -4473,7 +4473,7 @@ def openFileWaitKey(file_path: str, window_title="", txt="", check_close_file="0
 
     if not progr_start_ok:
         try:
-            cmd_txt=f"start {file_path_start}"
+            cmd_txt=f"start {file_path_start}" # Запускает массовый конфигуратор через командную строку с параметрами: логин+пароль+техномер
             if filename.rfind(".py")!=-1:
                 cmd_txt=f"python {file_path_start}"
             subprocess.Popen(cmd_txt, shell=True)

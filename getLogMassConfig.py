@@ -32,7 +32,7 @@ import keyboard     #для имитации нажатия клавиш
 def executeMassProdAutoConfig(meter_tech_number_list:list, employee_id:str, pw: str, print_msg_err="1",
                               time_wait_exec=2):
     """
-     Функция запускает массовый конфигуратор
+     Функция запускает массовый конфигуратор через командную строку с параметрами
     """
 
     filename = 'MassProdAutoConfig.exe'
@@ -1291,7 +1291,6 @@ def setProgramMassSetting(meter_tech_number_list_in: list, mass_number_of_meter:
     return ["1", "Настройка работы программы выполнена успешно."]
 
 
-
 def massSelectActions(select_mode="1", menu_item_add_list=[], 
                       menu_id_add_list=[]):
 
@@ -1346,9 +1345,7 @@ def onPress(key):
         if key.name=="/":
             programm_status = "команда 'Прервать'"
 
-
     return
-    
 
 
 def onPressAnyKey(key):
@@ -1363,11 +1360,8 @@ def onPressAnyKey(key):
         a_dic={"0":"0", "1":"1"}
         if key.name in a_dic:
             programm_status = f"нажали клавишу "+a_dic[key.name]
-        
-
 
     return
-
 
 
 def onlineReadPrintOLD(file_log_path: str, control_val_dic_in: dict,
@@ -1562,8 +1556,7 @@ def meterLogAnalysis(file_log_path: str, control_val_dic_in: dict,
     param_exceptions_list=[], print_msg_err="1",
     mass_log_print_analysis="индикатор"):
 
-    ret_pp_descript_dic={"1": "Этап успешно пройден.",
-        "2": "Этап пройден и выявлены ошибки."}
+    ret_pp_descript_dic={"1": "Этап успешно пройден.", "2": "Этап пройден и выявлены ошибки."}
 
     global programm_status      #имя статуса, в котором 
     
@@ -1687,8 +1680,6 @@ def meterLogAnalysis(file_log_path: str, control_val_dic_in: dict,
         return ["2", ret_pp_descript_dic["2"],
             err_in_log_list, except_in_log_list,
             log_line_file_list, status_true_list]
- 
-
 
 
 def onlineReadMulti(file_log_path: str, control_val_dic_in: dict,
