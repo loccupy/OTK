@@ -1,5 +1,3 @@
-
-
 import sys
 from libs.otkLib import *
 import hashlib
@@ -10,31 +8,32 @@ from tqdm import tqdm   #pip install tqdm   для отображения progre
 
 import keyboard     #для имитации нажатия клавиш
 
-def executeMassProdAutoConfig_OLD(print_msg_err="1", 
-    time_wait_exec=2):
+# Я закомментал, потому что вроде не используется
+# def executeMassProdAutoConfig_OLD(print_msg_err="1",
+#     time_wait_exec=2):
+#
+#     filename = 'MassProdAutoConfig.exe'
+#     closeProgram(filename)
+#
+#
+#     txt1 = "Запускаем программу MassProdAutoConfig.exe..."
+#     wait_key = ""
+#     res = openFileWaitKey(filename, "", txt1, "0", wait_key, "1", time_wait_exec)
+#     if res[0] == "0":
+#         a_err_txt = 'При запуске программы "MassProdAutoConfig.exe" ' \
+#             'возникла ошибка.'
+#         printMsgWait(a_err_txt, bcolors.WARNING,
+#             print_msg_err )
+#         return ["0", a_err_txt]
+#
+#     return ["1", "Программа запущена."]
 
-    filename = 'MassProdAutoConfig.exe'
-    closeProgram(filename)
-    
 
-    txt1 = "Запускаем программу MassProdAutoConfig.exe..."
-    wait_key = ""
-    res = openFileWaitKey(filename, "", txt1, "0",
-        wait_key, "1", time_wait_exec)
-    if res[0] == "0":
-        a_err_txt = 'При запуске программы "MassProdAutoConfig.exe" ' \
-            'возникла ошибка.'
-        printMsgWait(a_err_txt, bcolors.WARNING, 
-            print_msg_err )
-        return ["0", a_err_txt]
-    
-    return ["1", "Программа запущена."]
-
-
-
-def executeMassProdAutoConfig(meter_tech_number_list:list, 
-    employee_id:str, pw: str, print_msg_err="1", 
-    time_wait_exec=2):
+def executeMassProdAutoConfig(meter_tech_number_list:list, employee_id:str, pw: str, print_msg_err="1",
+                              time_wait_exec=2):
+    """
+     Функция запускает массовый конфигуратор
+    """
 
     filename = 'MassProdAutoConfig.exe'
 
@@ -151,350 +150,349 @@ def authMassProdAutoConfig(employee_id:str, pw:str,
     return ["1", "Регистрация прошла успешно."]
 
 
-
-def cycleOnlineReadLog_OLD(file_log_path: str, meter_tech_number_list_in: list,
-    meter_status_test_list_in: list, meter_serial_number_list_in: list, 
-    mass_number_of_meter: int, meter_soft_list_in: list,
-    workmode="эксплуатация", print_msg_err="1"):
-
-
-    global programm_status 
-  
-    meter_tech_number_list=meter_tech_number_list_in.copy()
-
-    meter_status_test_list=meter_status_test_list_in.copy()
-
-    meter_serial_number_list=meter_serial_number_list_in.copy()
-
-    meter_soft_list=meter_soft_list_in.copy()    
-
-    meter_tech_number_list_old=meter_tech_number_list.copy()
-
-    meter_status_test_list_old=meter_status_test_list.copy()
-
-    meter_serial_number_list_old=meter_serial_number_list.copy()
-
-    res=readGonfigValue("mass_config.json",[],{}, workmode, "1")
-    if res[0]!="1":
-        a_err_txt="Не удалось прочитать конфигурационные данные."
-        return ["0",a_err_txt]
-
-    mass_config_dic=res[2]
-
-    time_interval_limit=mass_config_dic.get("time_interval_limit",10)
-
-    mass_log_split_print=mass_config_dic.get("mass_log_split_print","индикатор")
-
-    mass_log_print_analysis=mass_config_dic.get("mass_log_print_analysis","индикатор")
-    
-    time_interval=mass_config_dic.get("time_interval",1)
-
-    window_title="MassProdAutoConfigGUI"
-
-    moveResizeWindow([window_title], -1, 10, -1, 663)
-
-    log_file_folder=os.path.split(file_log_path)[0]
-
-    mass_log_line_dic={}
-
-    count_meter_stage_ok=0
-
-    meter_number_analisys_err_list=[]
-    
-    log_analiz_mode="2"
-    
-    stage=0
-    while stage<2:
-
-        if stage==0:
-            mass_log_line_dic={}
-            for meter_tech_number in meter_tech_number_list_old:
-                mass_log_line_dic[meter_tech_number]={
-                    "err_in_log_list":[],
-                    "except_in_log_list":[],
-                    "no_substrings_found_list":[],
-                    "analisys_res_0":"",
-                    "analisys_res_1":"",
-                    "log_line_file_list":[]
-                }
-           
-        for i in range(0, mass_number_of_meter):
-            if meter_tech_number_list[i]!=None and meter_tech_number_list[i]!="":
-                log_meter_path=os.path.join(log_file_folder, 
-                    f"log_{i}.txt")
-                with open(log_meter_path, "w", errors="ignore", encoding='utf-8') as file:
-                    pass
-        
-        count_meter_stage_ok=0
-
-        meter_number_analisys_err_list=[]
-        
-        err_in_log_list=[]
-
-        except_in_log_list=[]
-
-        log_line_file_list=[]
-
-        no_substrings_found_list=[]
-
-        control_val_dic=mass_config_dic["stages_dic"][str(stage)]
-
-        stage_name = control_val_dic["stage_name"]
-
-        if stage==0:
-            with open(file_log_path, "w", errors="ignore") as file:
-                pass
-
-        send_start_command_list=control_val_dic["send_start_command_list"]
-
-        send_stop_command_list=control_val_dic["send_stop_command_list"]
-
-        if log_analiz_mode=="2":
-            res=sendCommandShortKey(window_title, send_start_command_list, 
-                file_log_path, stage_name, "1", workmode)
-        
-
-            if res[0] in ["0","2"]:
-                printWARNING("Не удалось запустить процесс проверки в "
-                    "автоматическом режиме.")
-                res=massSelectActions("1")
-                if res[0]=="1" and res[2]=="6":
-                    continue
-
-                if res[0]=="9":
-                    return ["9", res[1]]
-                
-                a_txt=f"{bcolors.OKGREEN}Проведите проверку " \
-                    "конфигурации ПУ вручную.\n" \
-                    f"{bcolors.OKBLUE}По окончании - " \
-                    "нажмите Enter."
-                log_analiz_mode="1"
-
-                questionSpecifiedKey("", a_txt, ["\r"], "", 1)
-
-            if log_analiz_mode=="1":
-                a_txt="Провести анализ log-файла? 0-нет, 1-да:"
-                oo=questionSpecifiedKey(bcolors.OKBLUE, a_txt, 
-                    ["0", "1"], "", 1)
-                print()
-                log_analiz_mode=oo
-
-            if log_analiz_mode=="0":
-                return ["2", "Анализ log-файла проведен не был."]
-    
-        if log_analiz_mode=="2":
-            keyboard.on_press(onPress)
-
-        res_read_multi=onlineReadMulti(file_log_path, control_val_dic,
-            mass_number_of_meter, meter_tech_number_list, stage, time_interval, 
-            time_interval_limit, mass_log_split_print,
-            print_msg_err)
-            
-        if log_analiz_mode=="2":
-            keyboard.unhook_all()
-
-        if len(send_stop_command_list)>0 and log_analiz_mode=="2":
-            sendCommandShortKey(window_title, send_stop_command_list, 
-                file_log_path, stage_name, "0", workmode)
-            
-        if res_read_multi[0]=="0":
-            menu_item_add_list=["Пропустить проверку конфигурации ПУ"]
-            menu_id_add_list=["пропустить тест"]
-            res = massSelectActions("3", menu_item_add_list, menu_id_add_list)
-            if res[0]=="9":
-                return ["9", res[1]]
-            
-            if res[0]=="1":
-                if res[2] == "6":
-                    stage=0
-                    continue
-
-                if res[2] in ["3", "4"]:
-                    return [res[2], res[1]]
-
-            elif res[0]=="2":
-                if res[2]=="пропустить тест":
-                    return ["8", "Пропустить тест."]
-                
-        elif res_read_multi[0]=="8":
-            return ["8", res_read_multi[1]]
-
-        elif res_read_multi[0]=="9":
-            return ["9", res_read_multi[1]]
-        
-        elif res_read_multi[0] in ["3", "4"]:
-            return [res_read_multi[0], res_read_multi[1]] 
-        
-        elif res_read_multi[0] == "5":
-            stage=0
-            continue         
-
-
-        for i in range(0, len(meter_tech_number_list)):
-            meter_tech_number=meter_tech_number_list[i]
-            meter_serial_number=meter_serial_number_list[i]
-            meter_serial_space=meter_serial_number[0:-7]+" " \
-                +meter_serial_number[-7:len(meter_serial_number)]
-
-            if meter_tech_number==None or meter_tech_number=="":
-                continue
-
-            meter_soft=meter_soft_list[i]
-
-            param_exceptions_list=[]
-        
-            res = getParamExceptionsList(meter_soft, workmode)
-            if res[0]!="1":
-
-                a_err_txt="Ошибка при получении списка исключений для " \
-                    f"версии ПО {meter_soft} для ПУ № {meter_tech_number} " \
-                    f"({meter_serial_space})."
-                printFAIL(a_err_txt)
-                return ["0", a_err_txt]
-
-            param_exceptions_list=res[2]
-
-            log_meter_path=os.path.join(log_file_folder, 
-                f"log_{i}.txt")
-            if not os.path.exists(log_meter_path):
-                a_err_txt=f"Отсутствует log-файл {log_meter_path} " \
-                    f"для ПУ № {meter_tech_number} " \
-                    f"({meter_serial_space})."
-                printFAIL(a_err_txt)
-                return ["0", a_err_txt]
-            
-             
-            res=meterLogAnalysis(log_meter_path, control_val_dic, 
-                param_exceptions_list, "1", mass_log_print_analysis)
-            
-            err_in_log_list=res[2]
-
-            except_in_log_list=res[3]
-
-            log_line_file_list=res[4]
-
-            no_substrings_found_list=res[5]
-            
-            if res[0]=="1":
-                printGREEN(f"ПУ № {meter_tech_number} ({meter_serial_space}) " \
-                    f"успешно прошел этап '{stage_name}'.")
-                
-                count_meter_stage_ok+=1
-
-                a_mass_dic=mass_log_line_dic.get(meter_tech_number,{})
-                a_mass_dic["err_in_log_list"]=err_in_log_list
-                a_mass_dic["except_in_log_list"]=except_in_log_list
-                a_mass_dic["no_substrings_found_list"]=no_substrings_found_list
-                a_mass_dic[f"analisys_res_{str(stage)}"]="ok"
-                a_mass_dic["log_line_file_list"]=log_line_file_list
-                mass_log_line_dic[meter_tech_number]=a_mass_dic.copy()
-                
-                continue
-
-            elif res[0]=="0":
-                a_txt=f"При прохождении этапа '{stage_name}' " \
-                    f"для ПУ № {meter_tech_number} ({meter_serial_space}) " \
-                    f"была выявлена ошибка в работе программы."
-                printWARNING(a_txt)
-                a_mass_dic=mass_log_line_dic.get(meter_tech_number,{})
-                a_mass_dic["err_in_log_list"]=err_in_log_list
-                a_mass_dic["except_in_log_list"]=except_in_log_list
-                a_mass_dic["no_substrings_found_list"]=no_substrings_found_list
-                a_mass_dic[f"analisys_res_{str(stage)}"]="error"
-                a_mass_dic["log_line_file_list"]=log_line_file_list
-                mass_log_line_dic[meter_tech_number]=a_mass_dic.copy()
-                
-                meter_number_analisys_err_list.append(meter_serial_number)
-
-            elif res[0]=="2":
-                meter_number_analisys_err_list.append(meter_serial_number)
-
-                a_defects="\n".join(err_in_log_list)
-                a_txt=f"При прохождении этапа '{stage_name}' " \
-                    f"для ПУ № {meter_tech_number} ({meter_serial_space}) " \
-                    f"были выявлены замечания:\n{a_defects}"
-                if len(no_substrings_found_list)>0:
-                    a_sub="\n".join(no_substrings_found_list)
-                    if len(err_in_log_list)>0:
-                        a_txt=f"{a_txt}\nТакже в log-файле не найдены " \
-                            f"следующие подстроки:\n{a_sub}"
-                    
-                    else:
-                        a_txt=f"В log-файле не найдены " \
-                            f"следующие подстроки:\n{a_sub}"
-                
-                printFAIL(f"\n{a_txt}")
-                if stage==1:
-                    a_mass_dic=mass_log_line_dic.get(meter_tech_number,{})
-                    a_mass_dic["err_in_log_list"]=err_in_log_list
-                    a_mass_dic["except_in_log_list"]=except_in_log_list
-                    a_mass_dic["no_substrings_found_list"]=no_substrings_found_list
-                    a_mass_dic[f"analisys_res_{str(stage)}"]="bad"
-                    a_mass_dic["log_line_file_list"]=log_line_file_list
-                    mass_log_line_dic[meter_tech_number]=a_mass_dic.copy()
-                        
-        
-        if stage==0 and count_meter_stage_ok!=mass_number_of_meter:
-            a_str=", ".join(meter_number_analisys_err_list)
-            a_txt=f"При прохождении этапа '{stage_name}' " \
-                f"у ПУ № {a_str} были выявлены замечания."            
-            printWARNING(a_txt)
-
-        
-            menu_item_add_list=["Пропустить проверку конфигурации ПУ"]
-            menu_id_add_list=["пропустить тест всех ПУ"]
-
-            if mass_number_of_meter>1 and count_meter_stage_ok==0:
-                menu_item_add_list=["Пропустить проверку конфигурации всех ПУ"]
-                menu_id_add_list=["пропустить тест всех ПУ"]
-
-            elif mass_number_of_meter>1 and count_meter_stage_ok!=0:
-                menu_item_add_list=["Пропустить проверку конфигурации у ПУ с ошибкой", 
-                    "Пропустить проверку конфигурации всех ПУ"]
-                menu_id_add_list=["пропустить тест ПУ","пропустить тест всех ПУ"]
-            res = massSelectActions("3", menu_item_add_list, menu_id_add_list)
-            if res[0]=="9":
-                return ["9", res[1]]
-            
-            if res[0]=="1":
-                if res[2] == "6":
-                    meter_tech_number_list=meter_tech_number_list_old.copy()
-                    meter_status_test_list=meter_status_test_list_old.copy()
-                    meter_serial_number_list=meter_serial_number_list_old.copy()
-                    stage=0
-                    continue
-
-                if res[2] in ["3", "4"]:
-                    return [res[2], res[1]]
-
-            elif res[0]=="2":
-                if res[2]=="пропустить тест всех ПУ":
-                    return ["8", "Пропустить тест."]
-                
-                elif res[2]=="пропустить тест ПУ":
-                    a_str=", ".join(meter_number_analisys_err_list)
-                    a_txt=f"Для ПУ № {a_str} будет пропущена дальнейшая " \
-                        "проверка конфигурации."
-                    printWARNING(a_txt)
-                    for i in range (0, len(meter_number_analisys_err_list)):
-                        ind=meter_serial_number_list.index(meter_number_analisys_err_list[i])
-                        meter_tech_number_list[ind]=""
-                        meter_status_test_list[ind]="пропущен"
-                        meter_serial_number_list[ind]=""
-
-        stage+=1
-    
-
-    return ["1", "Анализ log-файла проведен.", mass_log_line_dic]
-
-
-
-def cycleOnlineReadLog(file_log_path: str, meter_tech_number_list_in: list,
-    meter_status_test_list_in: list, meter_serial_number_list_in: list, 
-    mass_number_of_meter: int, meter_soft_list_in: list,
-    workmode="эксплуатация", print_msg_err="1"):
-
-
+# я закомменетил, потому что вроде не используется
+# def cycleOnlineReadLog_OLD(file_log_path: str, meter_tech_number_list_in: list,
+#     meter_status_test_list_in: list, meter_serial_number_list_in: list,
+#     mass_number_of_meter: int, meter_soft_list_in: list,
+#     workmode="эксплуатация", print_msg_err="1"):
+#
+#
+#     global programm_status
+#
+#     meter_tech_number_list=meter_tech_number_list_in.copy()
+#
+#     meter_status_test_list=meter_status_test_list_in.copy()
+#
+#     meter_serial_number_list=meter_serial_number_list_in.copy()
+#
+#     meter_soft_list=meter_soft_list_in.copy()
+#
+#     meter_tech_number_list_old=meter_tech_number_list.copy()
+#
+#     meter_status_test_list_old=meter_status_test_list.copy()
+#
+#     meter_serial_number_list_old=meter_serial_number_list.copy()
+#
+#     res=readGonfigValue("mass_config.json",[],{}, workmode, "1")
+#     if res[0]!="1":
+#         a_err_txt="Не удалось прочитать конфигурационные данные."
+#         return ["0",a_err_txt]
+#
+#     mass_config_dic=res[2]
+#
+#     time_interval_limit=mass_config_dic.get("time_interval_limit",10)
+#
+#     mass_log_split_print=mass_config_dic.get("mass_log_split_print","индикатор")
+#
+#     mass_log_print_analysis=mass_config_dic.get("mass_log_print_analysis","индикатор")
+#
+#     time_interval=mass_config_dic.get("time_interval",1)
+#
+#     window_title="MassProdAutoConfigGUI"
+#
+#     moveResizeWindow([window_title], -1, 10, -1, 663)
+#
+#     log_file_folder=os.path.split(file_log_path)[0]
+#
+#     mass_log_line_dic={}
+#
+#     count_meter_stage_ok=0
+#
+#     meter_number_analisys_err_list=[]
+#
+#     log_analiz_mode="2"
+#
+#     stage=0
+#     while stage<2:
+#
+#         if stage==0:
+#             mass_log_line_dic={}
+#             for meter_tech_number in meter_tech_number_list_old:
+#                 mass_log_line_dic[meter_tech_number]={
+#                     "err_in_log_list":[],
+#                     "except_in_log_list":[],
+#                     "no_substrings_found_list":[],
+#                     "analisys_res_0":"",
+#                     "analisys_res_1":"",
+#                     "log_line_file_list":[]
+#                 }
+#
+#         for i in range(0, mass_number_of_meter):
+#             if meter_tech_number_list[i]!=None and meter_tech_number_list[i]!="":
+#                 log_meter_path=os.path.join(log_file_folder,
+#                     f"log_{i}.txt")
+#                 with open(log_meter_path, "w", errors="ignore", encoding='utf-8') as file:
+#                     pass
+#
+#         count_meter_stage_ok=0
+#
+#         meter_number_analisys_err_list=[]
+#
+#         err_in_log_list=[]
+#
+#         except_in_log_list=[]
+#
+#         log_line_file_list=[]
+#
+#         no_substrings_found_list=[]
+#
+#         control_val_dic=mass_config_dic["stages_dic"][str(stage)]
+#
+#         stage_name = control_val_dic["stage_name"]
+#
+#         if stage==0:
+#             with open(file_log_path, "w", errors="ignore") as file:
+#                 pass
+#
+#         send_start_command_list=control_val_dic["send_start_command_list"]
+#
+#         send_stop_command_list=control_val_dic["send_stop_command_list"]
+#
+#         if log_analiz_mode=="2":
+#             res=sendCommandShortKey(window_title, send_start_command_list,
+#                 file_log_path, stage_name, "1", workmode)
+#
+#
+#             if res[0] in ["0","2"]:
+#                 printWARNING("Не удалось запустить процесс проверки в "
+#                     "автоматическом режиме.")
+#                 res=massSelectActions("1")
+#                 if res[0]=="1" and res[2]=="6":
+#                     continue
+#
+#                 if res[0]=="9":
+#                     return ["9", res[1]]
+#
+#                 a_txt=f"{bcolors.OKGREEN}Проведите проверку " \
+#                     "конфигурации ПУ вручную.\n" \
+#                     f"{bcolors.OKBLUE}По окончании - " \
+#                     "нажмите Enter."
+#                 log_analiz_mode="1"
+#
+#                 questionSpecifiedKey("", a_txt, ["\r"], "", 1)
+#
+#             if log_analiz_mode=="1":
+#                 a_txt="Провести анализ log-файла? 0-нет, 1-да:"
+#                 oo=questionSpecifiedKey(bcolors.OKBLUE, a_txt,
+#                     ["0", "1"], "", 1)
+#                 print()
+#                 log_analiz_mode=oo
+#
+#             if log_analiz_mode=="0":
+#                 return ["2", "Анализ log-файла проведен не был."]
+#
+#         if log_analiz_mode=="2":
+#             keyboard.on_press(onPress)
+#
+#         res_read_multi=onlineReadMulti(file_log_path, control_val_dic,
+#             mass_number_of_meter, meter_tech_number_list, stage, time_interval,
+#             time_interval_limit, mass_log_split_print,
+#             print_msg_err)
+#
+#         if log_analiz_mode=="2":
+#             keyboard.unhook_all()
+#
+#         if len(send_stop_command_list)>0 and log_analiz_mode=="2":
+#             sendCommandShortKey(window_title, send_stop_command_list,
+#                 file_log_path, stage_name, "0", workmode)
+#
+#         if res_read_multi[0]=="0":
+#             menu_item_add_list=["Пропустить проверку конфигурации ПУ"]
+#             menu_id_add_list=["пропустить тест"]
+#             res = massSelectActions("3", menu_item_add_list, menu_id_add_list)
+#             if res[0]=="9":
+#                 return ["9", res[1]]
+#
+#             if res[0]=="1":
+#                 if res[2] == "6":
+#                     stage=0
+#                     continue
+#
+#                 if res[2] in ["3", "4"]:
+#                     return [res[2], res[1]]
+#
+#             elif res[0]=="2":
+#                 if res[2]=="пропустить тест":
+#                     return ["8", "Пропустить тест."]
+#
+#         elif res_read_multi[0]=="8":
+#             return ["8", res_read_multi[1]]
+#
+#         elif res_read_multi[0]=="9":
+#             return ["9", res_read_multi[1]]
+#
+#         elif res_read_multi[0] in ["3", "4"]:
+#             return [res_read_multi[0], res_read_multi[1]]
+#
+#         elif res_read_multi[0] == "5":
+#             stage=0
+#             continue
+#
+#
+#         for i in range(0, len(meter_tech_number_list)):
+#             meter_tech_number=meter_tech_number_list[i]
+#             meter_serial_number=meter_serial_number_list[i]
+#             meter_serial_space=meter_serial_number[0:-7]+" " \
+#                 +meter_serial_number[-7:len(meter_serial_number)]
+#
+#             if meter_tech_number==None or meter_tech_number=="":
+#                 continue
+#
+#             meter_soft=meter_soft_list[i]
+#
+#             param_exceptions_list=[]
+#
+#             res = getParamExceptionsList(meter_soft, workmode)
+#             if res[0]!="1":
+#
+#                 a_err_txt="Ошибка при получении списка исключений для " \
+#                     f"версии ПО {meter_soft} для ПУ № {meter_tech_number} " \
+#                     f"({meter_serial_space})."
+#                 printFAIL(a_err_txt)
+#                 return ["0", a_err_txt]
+#
+#             param_exceptions_list=res[2]
+#
+#             log_meter_path=os.path.join(log_file_folder,
+#                 f"log_{i}.txt")
+#             if not os.path.exists(log_meter_path):
+#                 a_err_txt=f"Отсутствует log-файл {log_meter_path} " \
+#                     f"для ПУ № {meter_tech_number} " \
+#                     f"({meter_serial_space})."
+#                 printFAIL(a_err_txt)
+#                 return ["0", a_err_txt]
+#
+#
+#             res=meterLogAnalysis(log_meter_path, control_val_dic,
+#                 param_exceptions_list, "1", mass_log_print_analysis)
+#
+#             err_in_log_list=res[2]
+#
+#             except_in_log_list=res[3]
+#
+#             log_line_file_list=res[4]
+#
+#             no_substrings_found_list=res[5]
+#
+#             if res[0]=="1":
+#                 printGREEN(f"ПУ № {meter_tech_number} ({meter_serial_space}) " \
+#                     f"успешно прошел этап '{stage_name}'.")
+#
+#                 count_meter_stage_ok+=1
+#
+#                 a_mass_dic=mass_log_line_dic.get(meter_tech_number,{})
+#                 a_mass_dic["err_in_log_list"]=err_in_log_list
+#                 a_mass_dic["except_in_log_list"]=except_in_log_list
+#                 a_mass_dic["no_substrings_found_list"]=no_substrings_found_list
+#                 a_mass_dic[f"analisys_res_{str(stage)}"]="ok"
+#                 a_mass_dic["log_line_file_list"]=log_line_file_list
+#                 mass_log_line_dic[meter_tech_number]=a_mass_dic.copy()
+#
+#                 continue
+#
+#             elif res[0]=="0":
+#                 a_txt=f"При прохождении этапа '{stage_name}' " \
+#                     f"для ПУ № {meter_tech_number} ({meter_serial_space}) " \
+#                     f"была выявлена ошибка в работе программы."
+#                 printWARNING(a_txt)
+#                 a_mass_dic=mass_log_line_dic.get(meter_tech_number,{})
+#                 a_mass_dic["err_in_log_list"]=err_in_log_list
+#                 a_mass_dic["except_in_log_list"]=except_in_log_list
+#                 a_mass_dic["no_substrings_found_list"]=no_substrings_found_list
+#                 a_mass_dic[f"analisys_res_{str(stage)}"]="error"
+#                 a_mass_dic["log_line_file_list"]=log_line_file_list
+#                 mass_log_line_dic[meter_tech_number]=a_mass_dic.copy()
+#
+#                 meter_number_analisys_err_list.append(meter_serial_number)
+#
+#             elif res[0]=="2":
+#                 meter_number_analisys_err_list.append(meter_serial_number)
+#
+#                 a_defects="\n".join(err_in_log_list)
+#                 a_txt=f"При прохождении этапа '{stage_name}' " \
+#                     f"для ПУ № {meter_tech_number} ({meter_serial_space}) " \
+#                     f"были выявлены замечания:\n{a_defects}"
+#                 if len(no_substrings_found_list)>0:
+#                     a_sub="\n".join(no_substrings_found_list)
+#                     if len(err_in_log_list)>0:
+#                         a_txt=f"{a_txt}\nТакже в log-файле не найдены " \
+#                             f"следующие подстроки:\n{a_sub}"
+#
+#                     else:
+#                         a_txt=f"В log-файле не найдены " \
+#                             f"следующие подстроки:\n{a_sub}"
+#
+#                 printFAIL(f"\n{a_txt}")
+#                 if stage==1:
+#                     a_mass_dic=mass_log_line_dic.get(meter_tech_number,{})
+#                     a_mass_dic["err_in_log_list"]=err_in_log_list
+#                     a_mass_dic["except_in_log_list"]=except_in_log_list
+#                     a_mass_dic["no_substrings_found_list"]=no_substrings_found_list
+#                     a_mass_dic[f"analisys_res_{str(stage)}"]="bad"
+#                     a_mass_dic["log_line_file_list"]=log_line_file_list
+#                     mass_log_line_dic[meter_tech_number]=a_mass_dic.copy()
+#
+#
+#         if stage==0 and count_meter_stage_ok!=mass_number_of_meter:
+#             a_str=", ".join(meter_number_analisys_err_list)
+#             a_txt=f"При прохождении этапа '{stage_name}' " \
+#                 f"у ПУ № {a_str} были выявлены замечания."
+#             printWARNING(a_txt)
+#
+#
+#             menu_item_add_list=["Пропустить проверку конфигурации ПУ"]
+#             menu_id_add_list=["пропустить тест всех ПУ"]
+#
+#             if mass_number_of_meter>1 and count_meter_stage_ok==0:
+#                 menu_item_add_list=["Пропустить проверку конфигурации всех ПУ"]
+#                 menu_id_add_list=["пропустить тест всех ПУ"]
+#
+#             elif mass_number_of_meter>1 and count_meter_stage_ok!=0:
+#                 menu_item_add_list=["Пропустить проверку конфигурации у ПУ с ошибкой",
+#                     "Пропустить проверку конфигурации всех ПУ"]
+#                 menu_id_add_list=["пропустить тест ПУ","пропустить тест всех ПУ"]
+#             res = massSelectActions("3", menu_item_add_list, menu_id_add_list)
+#             if res[0]=="9":
+#                 return ["9", res[1]]
+#
+#             if res[0]=="1":
+#                 if res[2] == "6":
+#                     meter_tech_number_list=meter_tech_number_list_old.copy()
+#                     meter_status_test_list=meter_status_test_list_old.copy()
+#                     meter_serial_number_list=meter_serial_number_list_old.copy()
+#                     stage=0
+#                     continue
+#
+#                 if res[2] in ["3", "4"]:
+#                     return [res[2], res[1]]
+#
+#             elif res[0]=="2":
+#                 if res[2]=="пропустить тест всех ПУ":
+#                     return ["8", "Пропустить тест."]
+#
+#                 elif res[2]=="пропустить тест ПУ":
+#                     a_str=", ".join(meter_number_analisys_err_list)
+#                     a_txt=f"Для ПУ № {a_str} будет пропущена дальнейшая " \
+#                         "проверка конфигурации."
+#                     printWARNING(a_txt)
+#                     for i in range (0, len(meter_number_analisys_err_list)):
+#                         ind=meter_serial_number_list.index(meter_number_analisys_err_list[i])
+#                         meter_tech_number_list[ind]=""
+#                         meter_status_test_list[ind]="пропущен"
+#                         meter_serial_number_list[ind]=""
+#
+#         stage+=1
+#
+#
+#     return ["1", "Анализ log-файла проведен.", mass_log_line_dic]
+
+
+def cycleOnlineReadLog(file_log_path: str, meter_tech_number_list_in: list, meter_status_test_list_in: list,
+                       meter_serial_number_list_in: list, mass_number_of_meter: int, meter_soft_list_in: list,
+                       workmode="эксплуатация", print_msg_err="1"):
+    """
+     Функция
+    """
     global programm_status 
   
     meter_tech_number_list=listCopy(meter_tech_number_list_in)
@@ -1128,11 +1126,18 @@ def getParamExceptionsList(meter_soft: str, workmode="эксплуатация")
         
     
 
-def setProgramMassSetting(meter_tech_number_list_in: list,
-    mass_number_of_meter: int, com_config_list_in: list, 
-    mass_control_com_port="2", 
-    print_msg_err="1", workmode="эксплуатация"):
+def setProgramMassSetting(meter_tech_number_list_in: list, mass_number_of_meter: int, com_config_list_in: list,
+                          mass_control_com_port="2", print_msg_err="1", workmode="эксплуатация"):
+    """
+        Общая цель:
+    -Настроить параметры работы программы:
 
+    -Удалить «лишние» ключи реестра. Цель: очистить реестр от ключей, которые не соответствуют ожидаемому формату.
+
+    -Обновить настройки COM‑портов. Цель: синхронизировать COM‑порты в реестре с актуальными значениями.
+
+    -Установить общее количество портов - 11 штук.
+    """
     meter_tech_number_list=listCopy(meter_tech_number_list_in)
     com_config_list=listCopy(com_config_list_in)
 
@@ -1174,11 +1179,6 @@ def setProgramMassSetting(meter_tech_number_list_in: list,
                     printMsgWait(a_err_txt, bcolors.WARNING,
                         print_msg_err)
                     return ["0", a_err_txt]
-            
-
-
-                    
-                
 
         return ["1", "Операция выполнена успешно.", subkeys_list[0]]
 
@@ -1277,19 +1277,14 @@ def setProgramMassSetting(meter_tech_number_list_in: list,
         return ["1", "Настрока COM-порта выполнена успешно."]
 
     
-    res=innerRemoveExtraKey()
+    res=innerRemoveExtraKey()# ХЗ что тут происходит - очищает настройки что-ли
     if res[0]=="0":
         return ["0", res[1]]
-    
-    
+
     REG_PATH = f"MassProdAutoConfigGUI\\{res[2]}"
 
-        
- 
-    
     reg_name="NumberPlacementsSPhase"
-    setWinreg(REG_PATH, reg_name, "11")
-
+    setWinreg(REG_PATH, reg_name, "11")# зДЕСЬ УСТАНАВЛИВАЕТ ОБЩЕЕ КОЛ-ВО ПОРТОВ В НАСТРОЙКАХ КОНФИГУРАТОРА
 
     res=innerSettingComPortWinReg()
     if res[0]!="1":
@@ -2264,11 +2259,6 @@ def mainMassConfig():
             saveToMassConfigJSON(res[0], {}, workmode)
             exitProgram()
 
-
-
-                
-
-             
 
         res=cycleOnlineReadLog(file_log_path, meter_tech_number_list,
             meter_status_test_list, meter_serial_number_list, mass_number_of_meter, 

@@ -4731,6 +4731,14 @@ def getWinReg(reg_path, name):
 
 
 def delKeyWinReg(reg_path, name):
+    """
+       Что пытается сделать код:
+    - Открыть раздел реестра по пути reg_path в HKEY_CURRENT_USER.
+
+    - Удалить в нём подраздел с именем name.
+
+    - При успехе вернуть True, при ошибке — False.
+    """
 
     import winreg
 
@@ -4746,6 +4754,23 @@ def delKeyWinReg(reg_path, name):
 
 
 def subKeysWinReg(reg_path):
+    """
+    Инициализирует пустой список win_key_list для хранения имён подключей.
+
+    Пытается открыть раздел реестра по пути reg_path в ветке HKEY_CURRENT_USER.
+
+    Получает количество подключей через winreg.QueryInfoKey(h_apps)[0].
+
+    В цикле перебирает индексы от 0 до количество_подключей − 1 и:
+
+    вызывает winreg.EnumKey(h_apps, idx) для получения имени под‑ключа по индексу;
+
+    добавляет имя в список win_key_list.
+
+    При ошибке (WindowsError) формирует сообщение об ошибке и возвращает кортеж с кодом "0" и текстом ошибки.
+
+    При успешном выполнении возвращает кортеж с кодом "1", сообщением и списком подключей.
+    """
 
     import winreg
     
@@ -4753,7 +4778,7 @@ def subKeysWinReg(reg_path):
     try:
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f"{reg_path}\\") as h_apps:
             for idx in range(winreg.QueryInfoKey(h_apps)[0]):
-                win_key_list.append(winreg.EnumKey(h_apps, idx))
+                win_key_list.append(winreg.EnumKey(h_apps, idx))# возвращает имя под‑ключа по заданному числовому индексу (idx) в открытом разделе реестра (h_apps)
 
     except WindowsError:
         a_err_txt="Ошибка при получении списка вложенных ключей " \
