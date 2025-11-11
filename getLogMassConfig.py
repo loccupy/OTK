@@ -62,92 +62,91 @@ def executeMassProdAutoConfig(meter_tech_number_list:list, employee_id:str, pw: 
     return ["1", "Программа запущена."]
 
 
-
-def authMassProdAutoConfig(employee_id:str, pw:str, 
-        workmode="эксплуатация", print_msg_err="1",
-        time_wait_open_window=2):
-
-    employee_id=(5-len(employee_id))*'0'+employee_id
-    
-    _,txt1, image_dir = getUserFilePath('mass_config_image_dir',
-        only_dir="1", workmode=workmode)
-    if image_dir=="":
-        a_err_txt = "Не найден путь к папке с файлом-рисунком " \
-            "для входа в программу MassProdAutoConfig.exe."
-        printMsgWait(a_err_txt, bcolors.WARNING, 
-            print_msg_err)
-        return ["0", a_err_txt]
-
-
-    windows_list=[["AuthGUI", "AuthGUI.png", 0]]
-
-    for window_start in windows_list:
-        window_title=window_start[0]
-        w_image=window_start[1]
-        image_path = os.path.join(image_dir, w_image)
-        err_next_step=window_start[2]
-        
-        res=actionsSelectedtWindow([window_title], None,
-            "показать+активировать","1")
-        if res[0]!="1":
-            if err_next_step=="0":
-                a_err_txt=f"Не удалось найти окно '{window_title}'."
-                printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
-                return ["3", a_err_txt]
-        
-            elif err_next_step=="1":
-                continue
-        
-
-        pause_ui(time_wait_open_window)
-
-        res=searchImageWindow(image_path, window_title, "1")
-        if res[0]!="1":
-            a_err_txt=f"Не удалось найти изображение '{w_image}'."
-            printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
-            return ["3", a_err_txt]
-
-
-        window_position=res[2]
-        image_location=res[3]
-        image_wh=res[4]
-            
-        mouse_x=image_location[0] + window_position[0]+image_wh[0]/2
-        mouse_y= image_location[1] + window_position[1]+image_wh[1]/2
-
-        res=mouseClickGraf(mouse_x, mouse_y, "1")
-        if res[0]=="0":
-            a_err_txt=f"Не удалось кликнуть мышкой."
-            printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
-            return ["3", a_err_txt]
-
-        if window_title=="AuthGUI":
-
-                print("Ввожу регистрационные данные...")
-                keys_list=list(employee_id)+list(pw)+['tab','space']
-
-                for key in keys_list:
-                    keyboard.send(key)
-                    time.sleep(0.2)
-
-                pause_ui(time_wait_open_window)
-
-                a_title_window="MassProdAutoConfigGUI"
-                res=searchTitleWindow(a_title_window)
-                if res[0]=="1":
-                    break
-
-                elif res[0]!="2":
-                    a_err_txt=f"При регистрации в программе возникла ошибка"
-                    printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
-                    return ["0", a_err_txt]
-                
-                elif res[0]=="2":
-                    keyboard.send("space")
-                    a_err_txt=f"Не удалось зарегистрироваться в программе."
-                    return ["2", a_err_txt]
-
-    return ["1", "Регистрация прошла успешно."]
+# я закомменетил, потому что вроде не используется
+# def authMassProdAutoConfig(employee_id:str, pw:str, workmode="эксплуатация", print_msg_err="1",
+#                            time_wait_open_window=2):
+#
+#     employee_id=(5-len(employee_id))*'0'+employee_id
+#
+#     _,txt1, image_dir = getUserFilePath('mass_config_image_dir',
+#         only_dir="1", workmode=workmode)
+#     if image_dir=="":
+#         a_err_txt = "Не найден путь к папке с файлом-рисунком " \
+#             "для входа в программу MassProdAutoConfig.exe."
+#         printMsgWait(a_err_txt, bcolors.WARNING,
+#             print_msg_err)
+#         return ["0", a_err_txt]
+#
+#
+#     windows_list=[["AuthGUI", "AuthGUI.png", 0]]
+#
+#     for window_start in windows_list:
+#         window_title=window_start[0]
+#         w_image=window_start[1]
+#         image_path = os.path.join(image_dir, w_image)
+#         err_next_step=window_start[2]
+#
+#         res=actionsSelectedtWindow([window_title], None,
+#             "показать+активировать","1")
+#         if res[0]!="1":
+#             if err_next_step=="0":
+#                 a_err_txt=f"Не удалось найти окно '{window_title}'."
+#                 printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
+#                 return ["3", a_err_txt]
+#
+#             elif err_next_step=="1":
+#                 continue
+#
+#
+#         pause_ui(time_wait_open_window)
+#
+#         res=searchImageWindow(image_path, window_title, "1")
+#         if res[0]!="1":
+#             a_err_txt=f"Не удалось найти изображение '{w_image}'."
+#             printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
+#             return ["3", a_err_txt]
+#
+#
+#         window_position=res[2]
+#         image_location=res[3]
+#         image_wh=res[4]
+#
+#         mouse_x=image_location[0] + window_position[0]+image_wh[0]/2
+#         mouse_y= image_location[1] + window_position[1]+image_wh[1]/2
+#
+#         res=mouseClickGraf(mouse_x, mouse_y, "1")
+#         if res[0]=="0":
+#             a_err_txt=f"Не удалось кликнуть мышкой."
+#             printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
+#             return ["3", a_err_txt]
+#
+#         if window_title=="AuthGUI":
+#
+#                 print("Ввожу регистрационные данные...")
+#                 keys_list=list(employee_id)+list(pw)+['tab','space']
+#
+#                 for key in keys_list:
+#                     keyboard.send(key)
+#                     time.sleep(0.2)
+#
+#                 pause_ui(time_wait_open_window)
+#
+#                 a_title_window="MassProdAutoConfigGUI"
+#                 res=searchTitleWindow(a_title_window)
+#                 if res[0]=="1":
+#                     break
+#
+#                 elif res[0]!="2":
+#                     a_err_txt=f"При регистрации в программе возникла ошибка"
+#                     printMsgWait(a_err_txt, bcolors.WARNING, print_msg_err)
+#                     return ["0", a_err_txt]
+#
+#                 elif res[0]=="2":
+#                     keyboard.send("space")
+#                     a_err_txt=f"Не удалось зарегистрироваться в программе."
+#                     return ["2", a_err_txt]
+#
+#     return ["1", "Регистрация прошла успешно."]
 
 
 # я закомменетил, потому что вроде не используется
@@ -1260,9 +1259,8 @@ def setProgramMassSetting(meter_tech_number_list_in: list, mass_number_of_meter:
             a_reg_list=[]
             mass_index=0
             for i in range(0, len(meter_tech_number_list)):
-                if meter_tech_number_list[i]!=None and \
-                    meter_tech_number_list[i]!="" and \
-                    com_config_list[i]!=None and com_config_list[i]!="":
+                if (meter_tech_number_list[i]!=None and meter_tech_number_list[i]!="" and com_config_list[i]!=None
+                        and com_config_list[i]!=""):
                     a_reg_list.append({"Placement":mass_index,"SerialPort":com_config_list[i]})
                     com_last=com_config_list[i]
                     mass_index+=1
@@ -2082,8 +2080,6 @@ def replaceMyTitleWindows():
 def mainMassConfig():
     global programm_status
 
-
-    
     print_result="1"
 
     n = len(sys.argv)
@@ -2185,17 +2181,7 @@ def mainMassConfig():
     txt=f"Для проверки конфигурации ПУ используем {a_txt} {a_com_str}."
     printGREEN(txt)
 
-    
 
-    
-    
-    
-    
-    
-    
-
-
-   
     a_dic={"mask_file_name": ""}
     saveConfigValue("mass_log_line_multi.json",a_dic, workmode,
         "заменить файл")
@@ -2242,27 +2228,22 @@ def mainMassConfig():
         file_log_path = res[3]
 
         
-        res = setProgramMassSetting(meter_tech_number_list,
-            mass_number_of_meter, com_config_list, 
-            mass_control_com_port, "1", workmode)
+        res = setProgramMassSetting(meter_tech_number_list, mass_number_of_meter, com_config_list,
+                                    mass_control_com_port, "1", workmode)# Настройка COM в реестре в основном
         if res[0]!="1":
             saveToMassConfigJSON(res[0], {}, workmode)
             sys.exit()
-        
 
         replaceMyTitleWindows()
-        
-        
-        res=executeMassProdAutoConfig(meter_tech_number_list,
-            employee_id, pw, "1", time_wait_exec)
+
+        res=executeMassProdAutoConfig(meter_tech_number_list, employee_id, pw, "1",
+                                      time_wait_exec)# Запуск массового конфигуратора
         if res[0]=="0":
             saveToMassConfigJSON(res[0], {}, workmode)
             exitProgram()
 
-
-        res=cycleOnlineReadLog(file_log_path, meter_tech_number_list,
-            meter_status_test_list, meter_serial_number_list, mass_number_of_meter, 
-            meter_soft_list, workmode, "1")
+        res=cycleOnlineReadLog(file_log_path, meter_tech_number_list,meter_status_test_list, meter_serial_number_list,
+                               mass_number_of_meter, meter_soft_list, workmode, "1")
 
         if res[0] in ["0", "3", "8", "9"]:
             saveToMassConfigJSON(res[0], {}, workmode)
