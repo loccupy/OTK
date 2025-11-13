@@ -587,9 +587,8 @@ def cycleOnlineReadLog(file_log_path: str, meter_tech_number_list_in: list, mete
 
         if log_analiz_mode=="2":
             if skip_send_short_key=="0":
-                res=sendCommandShortKey(window_title, send_start_command_list, 
-                    file_log_path, stage_name, "1", workmode)
-        
+                res=sendCommandShortKey(window_title, send_start_command_list, file_log_path, stage_name,
+                                        "1", workmode)
 
                 if res[0] in ["0","2"]:
                     printWARNING("Не удалось запустить процесс проверки в "
@@ -612,8 +611,7 @@ def cycleOnlineReadLog(file_log_path: str, meter_tech_number_list_in: list, mete
 
             if log_analiz_mode=="1":
                 a_txt="Провести анализ log-файла? 0-нет, 1-да:"
-                oo=questionSpecifiedKey(bcolors.OKBLUE, a_txt, 
-                    ["0", "1"], "", 1)
+                oo=questionSpecifiedKey(bcolors.OKBLUE, a_txt, ["0", "1"], "", 1)
                 print()
                 log_analiz_mode=oo
 
@@ -1046,16 +1044,30 @@ def prepareFileMask(meter_serial_number_list_in: list, print_msg_err="1",
 
 
 
-def prepareFileLog(employee_id: str, mass_number_of_meter: int,
-    print_msg_err="1", workmode="эксплуатация"):
-   
+def prepareFileLog(employee_id: str, mass_number_of_meter: int, print_msg_err="1", workmode="эксплуатация"):
+    """
+    Функция принимает логин, номер счетчика и другие конфигурации,
+    создает два файла в указанном каталоге - {file_log_name_base}.txt и {file_log_name_base}_свод.txt,
+    удаляет файл log_{SER NUMBER} - пока хз для чего,
+    возвращает флаг, сообщение, путь к каталогу, имя файла.
 
-    
+        Ключевые действия вкратце:
+    -Сформировать имена лог‑файлов на основе даты и employee_id.
+
+    -Убедиться, что есть нужная директория (создать, если нет).
+
+    -Если есть текущий лог — дописать его в сводный.
+
+    -Очистить текущий лог.
+
+    -Удалить временные файлы приборов.
+
+    -Вернуть успех (или ошибку).
+    """
     res = toformatNow()
     dt=res[1]
     dtt=res[4]
     file_log_name_base = f"Log_1_{employee_id}_{dt[0:2]}-{dt[3:5]}-{dt[8:10]}"
-
 
     file_log_name = f"{file_log_name_base}.txt"
     file_log_sum_name=f"{file_log_name_base}_свод.txt"
@@ -1068,41 +1080,33 @@ def prepareFileLog(employee_id: str, mass_number_of_meter: int,
             print(f"{bcolors.WARNING}{a_err_txt}{bcolors.ENDC}")
         return ["0", a_err_txt, "", ""]
 
-
     file_log_dir_path=os.path.join(dir_path, employee_id)
     if not os.path.isdir(file_log_dir_path):
         res=createFolder(file_log_dir_path, "1")
         if res[0]=="0":
             return ["0", res[1]]
-        
 
     file_log_sum_path = os.path.join(file_log_dir_path, file_log_sum_name)
     if not os.path.exists(file_log_sum_path):
         with open(file_log_sum_path, "w", errors="ignore") as file:
-            pass 
+            pass
 
-    
     file_log_path = os.path.join(file_log_dir_path, file_log_name)
     if os.path.exists(file_log_path):
         with open(file_log_path, "r", errors="ignore",) as first, \
             open(file_log_sum_path, "a", errors="ignore") as second:
                 data = first.read()
                 second.write(data)
-                
 
     with open(file_log_path, "w", errors="ignore") as file:
         pass
-    
-    
+
     for i in range(0, mass_number_of_meter):
-        log_meter_path=os.path.join(file_log_dir_path, 
-            f"log_{i}.txt")
+        log_meter_path=os.path.join(file_log_dir_path, f"log_{i}.txt")
         if os.path.exists(log_meter_path):
             os.remove(log_meter_path)
 
-    return ["1", "Файл успешно подготовлен.", file_log_name, 
-            file_log_path]
-
+    return ["1", "Файл успешно подготовлен.", file_log_name, file_log_path]
 
 
 def getParamExceptionsList(meter_soft: str, workmode="эксплуатация"):
@@ -1291,9 +1295,18 @@ def setProgramMassSetting(meter_tech_number_list_in: list, mass_number_of_meter:
     return ["1", "Настройка работы программы выполнена успешно."]
 
 
-def massSelectActions(select_mode="1", menu_item_add_list=[], 
-                      menu_id_add_list=[]):
+def massSelectActions(select_mode="1", menu_item_add_list=[], menu_id_add_list=[]):
+    """
+        Код:
 
+    - Определяет набор действий в зависимости от select_mode.
+
+    - Отображает меню выбора с этими действиями.
+
+    - Обрабатывает выбор пользователя или прерывание.
+
+    - Возвращает код, текст и ID выбранного действия (или код прерывания).
+    """
     window_title="Проверка конфигурации ПУ с помощью программы " \
      "'MassProdAutoConfig'"
         
@@ -1883,6 +1896,20 @@ def onlineReadMulti(file_log_path: str, control_val_dic_in: dict,
 def sendCommandShortKey(window_title: str, send_command_list_in: list,
     file_log_path: str, stage_name: str, send_mode: str,
     print_msg_err="1",  workmode="эксплуатация"):
+    """
+        Код:
+
+    -Активирует окно по заголовку.
+
+    -Кликает в нём для фокуса.
+
+    -Отправляет клавиатурные команды.
+
+    -Контролирует результат через изменение лог‑файла (в зависимости от send_mode).
+
+    -Возвращает статус выполнения с описанием.
+
+    """
     
     send_command_list=listCopy(send_command_list_in)
     
