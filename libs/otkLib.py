@@ -1329,8 +1329,11 @@ def questionOneKey(colortxt: str,txt: str):
     return ret
 
 
-
 def questionSpecifiedKey(colortxt, txt, specified_keys_in: list, file_name_mp3="", specified_keys_only=0):
+    """
+    Функция questionSpecifiedKey() — ожидает нажатия одной из заданных клавиш с клавиатуры
+     и возвращает эту клавишу, как только она будет нажата.
+    """
     specified_keys=listCopy(specified_keys_in)
 
     if colortxt != None and colortxt != '':
