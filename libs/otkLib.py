@@ -552,6 +552,22 @@ def getFileModifedTime(file_name: str, err_msg_print="1"):
 
 def readGonfigValue(file_name_in: str, var_name_list=[],
     default_value_dict={},workmode="эксплуатация", msg_err_print="1"):
+    """
+         Назначение функции (по коду):
+    -Функция формирует словарь с настройками (параметрами), объединяя:
+
+    -Значения по умолчанию (default_value_dict)
+
+    -Значения из JSON-файла конфигурации (приоритет выше — они перезапишут дефолты)
+
+    И возвращает:
+
+    -Статус выполнения ("1" — успех, "0"/"2" — ошибка)
+
+    -Сообщение
+
+    -Итоговый словарь var_config_dict с параметрами
+    """
  
     var_config_dict={}
 
@@ -582,6 +598,16 @@ def readGonfigValue(file_name_in: str, var_name_list=[],
 
 def saveConfigValue(file_name_in: str, var_config_dict: dict,
     workmode="эксплуатация", write_mode="заменить часть"):
+    """
+         Назначение функции:
+    -Функция сохраняет словарь настроек (var_config_dict) в JSON-файл, при этом:
+
+    -Может полностью заменить файл.
+
+    -Или — обновить только часть значений, сохранив остальные из файла (режим "заменить часть").
+
+    -Использует единый путь к файлу через getUserFilePath, с учётом режима работы (workmode).
+    """
      
     _,_,file_name = getUserFilePath(file_name_in,workmode=workmode)
     if file_name=="":
