@@ -567,9 +567,6 @@ def savetToSUTP2(device_number: int, createdEmployeeId, operation: str,
         return "0"
 
 
-
-
-
 def getDeviceHistory(device_number: str, employee_print="0",workmode="эксплуатация"):
 
     device_history_dic={}
