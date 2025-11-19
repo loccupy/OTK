@@ -568,18 +568,31 @@ def savetToSUTP2(device_number: int, createdEmployeeId, operation: str,
 
 
 def getDeviceHistory(device_number: str, employee_print="0",workmode="эксплуатация"):
+    device_history_dic = {}
 
-    device_history_dic={}
+    device_number = str(device_number)
+    # url1 = f"/DeviceHistory/Get/TechNumber={device_number}"
+    url1 = f"/api/ProductHistories/ByAnyKey"
+    body = {
+        "techNumber": device_number,
+        "serialNumber": "string",
+        "chipKey": "string"
+    }
 
-    device_number=str(device_number)
-    url1 = f"/DeviceHistory/Get/TechNumber={device_number}"
-    if len(device_number) == 15 or len(device_number)==13:
-        url1 = f"/DeviceHistory/Get/SerialNumber={device_number}"
-    response = request_sutp("GET", url1, [], "", workmode)
+    if len(device_number) == 15 or len(device_number) == 13:
+        # url1 = f"/DeviceHistory/Get/SerialNumber={device_number}"
+        url1 = f"/api/ProductHistories/ByAnyKey"
+        body = {
+            "techNumber": None,
+            "serialNumber": device_number,
+            "chipKey": "string"
+        }
+
+    response = request_sutp("POST", url1, body, "", workmode)
     if response[0] != "1":
-        return ["0","Ошибка при обмене данными с сервером"]
+        return ["0", "Ошибка при обмене данными с сервером"]
     val = response[2]
-    items = val['items']
+    items = val['productHistories']
     device_history=""
     for item in items:
         version =str(item["version"])
